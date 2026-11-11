@@ -1,0 +1,312 @@
+:root {
+  color-scheme: light;
+  --paper: #f4efe4;
+  --ink: #3a403c;
+  --quiet: #6a645c;
+  --sand: #e6d0ae;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--paper);
+}
+
+body {
+  min-height: 100dvh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 42%, #fbf7f0 0%, var(--paper) 58%, #ebe3d4 100%);
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#stage {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding:
+    env(safe-area-inset-top)
+    env(safe-area-inset-right)
+    env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
+}
+
+#face {
+  width: min(68vw, 68vh, 460px);
+  border: 0;
+  padding: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+#face:focus {
+  outline: none;
+}
+
+#face:focus-visible {
+  outline: 3px solid rgba(227, 176, 138, 0.7);
+  outline-offset: 8px;
+  border-radius: 50%;
+}
+
+#face svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.shadow {
+  fill: #e4d8c6;
+}
+
+.glow {
+  fill: #e7d3b0;
+  opacity: 0.28;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.rim {
+  fill: #e3b08a;
+}
+
+.head {
+  fill: #f3c7a4;
+}
+
+.highlight {
+  fill: #fff;
+  opacity: 0.16;
+}
+
+.cheek {
+  fill: #efb0a0;
+  opacity: 0.55;
+}
+
+.eye {
+  fill: #3e4c59;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blink 5.6s infinite;
+}
+
+.shine {
+  fill: #fff8ee;
+}
+
+.eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.45s ease;
+}
+
+.smile {
+  fill: none;
+  stroke: #c46d5c;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.mouth {
+  fill: #b85e4e;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.buddy {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: breathe 5.2s ease-in-out infinite;
+}
+
+#stage[data-ready="no"] .glow {
+  animation: invite 2.6s ease-in-out infinite;
+}
+
+#stage[data-state="listening"] .glow {
+  opacity: 0.55;
+  animation: listen 3.2s ease-in-out infinite;
+}
+
+#stage[data-state="thinking"] .eyes {
+  transform: translateY(-7px);
+}
+
+#stage[data-state="thinking"] .glow {
+  opacity: 0.18;
+  animation: none;
+}
+
+#stage[data-state="thinking"] .buddy {
+  animation-duration: 7s;
+}
+
+#stage[data-state="speaking"] .smile {
+  opacity: 0;
+}
+
+#stage[data-state="speaking"] .mouth {
+  opacity: 1;
+  animation: talk 0.42s ease-in-out infinite;
+}
+
+#corner {
+  position: fixed;
+  top: env(safe-area-inset-top);
+  right: 0;
+  z-index: 2;
+  width: 72px;
+  height: 72px;
+  touch-action: manipulation;
+}
+
+#setup {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(244, 239, 228, 0.94);
+  font-family: ui-rounded, "Avenir Next", "Trebuchet MS", sans-serif;
+  color: var(--ink);
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+#setup[hidden] {
+  display: none !important;
+}
+
+#setup-form {
+  width: min(440px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 28px 22px;
+  background: rgba(255, 252, 247, 0.92);
+  border-radius: 28px;
+  box-shadow: 0 10px 40px rgba(80, 60, 30, 0.08);
+}
+
+#setup-title,
+#setup-note {
+  margin: 0;
+}
+
+#setup-title {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+#setup-note {
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--quiet);
+}
+
+#key,
+.setup-actions button {
+  font: inherit;
+  border: 0;
+}
+
+#key {
+  min-height: 52px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 16px;
+  box-shadow: inset 0 0 0 1px #e0d5c4;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+#key:focus {
+  outline: 2px solid #d9c4a4;
+  outline-offset: 2px;
+}
+
+.setup-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.setup-actions button[type="submit"] {
+  flex: 1;
+  min-height: 52px;
+  border-radius: 999px;
+  background: var(--sand);
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+#clear {
+  min-height: 52px;
+  padding: 0 8px;
+  background: transparent;
+  color: var(--quiet);
+  font-size: 16px;
+}
+
+@keyframes breathe {
+  0%,
+  100% { transform: scale(1); }
+  50% { transform: scale(1.035); }
+}
+
+@keyframes blink {
+  0%,
+  92%,
+  100% { transform: scaleY(1); }
+  96% { transform: scaleY(0.08); }
+}
+
+@keyframes invite {
+  0%,
+  100% { opacity: 0.22; transform: scale(0.96); }
+  50% { opacity: 0.72; transform: scale(1.05); }
+}
+
+@keyframes listen {
+  0%,
+  100% { opacity: 0.35; transform: scale(0.98); }
+  50% { opacity: 0.7; transform: scale(1.04); }
+}
+
+@keyframes talk {
+  0%,
+  100% { transform: scaleY(0.35); }
+  50% { transform: scaleY(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buddy,
+  .eye,
+  .glow,
+  .mouth {
+    animation: none !important;
+  }
+
+  #stage[data-state="speaking"] .mouth {
+    transform: scaleY(1);
+  }
+}
